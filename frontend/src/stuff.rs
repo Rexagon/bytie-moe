@@ -12,7 +12,7 @@ pub fn create_context() -> Result<WebGlRenderingContext, JsValue> {
         .unwrap()
         .dyn_into::<WebGlRenderingContext>()?;
 
-    Ok((context))
+    Ok(context)
 }
 
 
