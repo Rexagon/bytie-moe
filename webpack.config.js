@@ -8,7 +8,7 @@ module.exports = {
   entry: './index.js',
   output: {
     path: path.resolve(__dirname, 'dist'),
-    filename: 'index.js'
+    filename: '[name].[chunkhash].js'
   },
   module: {
     rules: [
@@ -49,7 +49,7 @@ module.exports = {
     }),
     new MiniCssExtractPlugin({
       filename: 'style.css',
-      chunkFilename: '[name].css',
+      chunkFilename: '[name].[contenthash].css',
       ignoreOrder: false
     })
   ]
