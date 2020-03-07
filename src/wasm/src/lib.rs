@@ -1,21 +1,21 @@
+mod cat;
+mod cube;
 mod mesh;
 mod shader;
 mod stuff;
-mod cube;
-mod cat;
 
 use std::cell::RefCell;
 use std::rc::Rc;
 
+use nalgebra_glm as glm;
+use nalgebra_glm::Mat4;
 use wasm_bindgen::prelude::*;
 use wasm_bindgen::JsCast;
-use web_sys::{WebGlRenderingContext, HtmlCanvasElement};
-use nalgebra_glm as glm;
+use web_sys::{HtmlCanvasElement, WebGlRenderingContext};
 
-use shader::Shader;
 use mesh::Mesh;
+use shader::Shader;
 use stuff::{create_context, request_animation_frame};
-use nalgebra_glm::Mat4;
 
 type Color = (f32, f32, f32);
 
@@ -53,7 +53,6 @@ void main() {
 }
 "#;
 
-
 #[wasm_bindgen(start)]
 pub fn start() -> Result<(), JsValue> {
     let gl = create_context()?;
@@ -64,7 +63,7 @@ pub fn start() -> Result<(), JsValue> {
     gl.bind_attrib_location(&shader.program, 0, "position");
     gl.bind_attrib_location(&shader.program, 1, "texture_coords");
     gl.bind_attrib_location(&shader.program, 2, "normal");
-    shader.link(&gl);
+    let _ = shader.link(&gl);
 
     gl.use_program(Some(&shader.program));
 
@@ -86,7 +85,11 @@ pub fn start() -> Result<(), JsValue> {
         resize(&gl, &mut projection_matrix);
 
         matrix_array.copy_from_slice(projection_matrix.as_slice());
-        gl.uniform_matrix4fv_with_f32_array(projections_matrix_uniform.as_ref(), false, &mut matrix_array);
+        gl.uniform_matrix4fv_with_f32_array(
+            projections_matrix_uniform.as_ref(),
+            false,
+            &mut matrix_array,
+        );
 
         let gl = create_context().unwrap();
 
@@ -100,16 +103,19 @@ pub fn start() -> Result<(), JsValue> {
                     continue;
                 }
 
-                gl.uniform3f(translation_uniform.as_ref(),
-                             0.0,
-                             offset.1 - 2.0 * row as f32,
-                             offset.0 + 2.0 * col as f32);
+                gl.uniform3f(
+                    translation_uniform.as_ref(),
+                    0.0,
+                    offset.1 - 2.0 * row as f32,
+                    offset.0 + 2.0 * col as f32,
+                );
 
                 gl.draw_elements_with_i32(
                     WebGlRenderingContext::TRIANGLES,
                     mesh.index_count,
                     WebGlRenderingContext::UNSIGNED_SHORT,
-                    0);
+                    0,
+                );
             }
         }
 
@@ -120,9 +126,12 @@ pub fn start() -> Result<(), JsValue> {
     Ok(())
 }
 
-
 fn resize(gl: &WebGlRenderingContext, projection_matrix: &mut glm::Mat4) {
-    let canvas = &gl.canvas().unwrap().dyn_into::<HtmlCanvasElement>().unwrap();
+    let canvas = &gl
+        .canvas()
+        .unwrap()
+        .dyn_into::<HtmlCanvasElement>()
+        .unwrap();
 
     let display_width = canvas.client_width() as u32;
     let display_height = canvas.client_height() as u32;
@@ -144,7 +153,8 @@ fn resize(gl: &WebGlRenderingContext, projection_matrix: &mut glm::Mat4) {
         -half_size * aspect_ratio,
         half_size * aspect_ratio,
         -1000.0,
-        1000.0);
+        1000.0,
+    );
 
     *projection_matrix = glm::rotate_x(projection_matrix, 0.615);
     *projection_matrix = glm::rotate_y(projection_matrix, glm::quarter_pi());

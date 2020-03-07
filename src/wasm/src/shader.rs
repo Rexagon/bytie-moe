@@ -1,6 +1,5 @@
-use web_sys::{WebGlRenderingContext, WebGlProgram, WebGlShader, WebGlUniformLocation};
 use wasm_bindgen::prelude::*;
-
+use web_sys::{WebGlProgram, WebGlRenderingContext, WebGlShader, WebGlUniformLocation};
 
 pub struct Shader {
     pub program: WebGlProgram,
@@ -8,24 +7,19 @@ pub struct Shader {
     fragment_shader: WebGlShader,
 }
 
-
 impl Shader {
-    pub fn create(gl: &WebGlRenderingContext, vertex_shader: &str, fragment_shader: &str)
-                  -> Result<Self, JsValue>
-    {
-        let vertex_shader = compile_shader(
-            &gl,
-            WebGlRenderingContext::VERTEX_SHADER,
-            vertex_shader)?;
+    pub fn create(
+        gl: &WebGlRenderingContext,
+        vertex_shader: &str,
+        fragment_shader: &str,
+    ) -> Result<Self, JsValue> {
+        let vertex_shader =
+            compile_shader(&gl, WebGlRenderingContext::VERTEX_SHADER, vertex_shader)?;
 
-        let fragment_shader = compile_shader(
-            &gl,
-            WebGlRenderingContext::FRAGMENT_SHADER,
-            fragment_shader)?;
+        let fragment_shader =
+            compile_shader(&gl, WebGlRenderingContext::FRAGMENT_SHADER, fragment_shader)?;
 
-        let program = gl
-            .create_program()
-            .expect("Unable to create shader object");
+        let program = gl.create_program().expect("Unable to create shader object");
 
         Ok(Shader {
             program,
@@ -34,11 +28,13 @@ impl Shader {
         })
     }
 
-
-    pub fn get_uniform_location(&self, gl: &WebGlRenderingContext, name: &str) -> Option<WebGlUniformLocation> {
+    pub fn get_uniform_location(
+        &self,
+        gl: &WebGlRenderingContext,
+        name: &str,
+    ) -> Option<WebGlUniformLocation> {
         gl.get_uniform_location(&self.program, name)
     }
-
 
     pub fn link(&self, gl: &WebGlRenderingContext) -> Result<(), String> {
         gl.attach_shader(&self.program, &self.vertex_shader);
@@ -58,7 +54,6 @@ impl Shader {
             .unwrap_or_else(|| String::from("Unknown error creating program object")))
     }
 }
-
 
 fn compile_shader(
     gl: &WebGlRenderingContext,

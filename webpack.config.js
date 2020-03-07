@@ -5,7 +5,7 @@ const WasmPackPlugin = require('@wasm-tool/wasm-pack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 module.exports = {
-  entry: './index.js',
+  entry: './src/index.js',
   output: {
     path: path.resolve(__dirname, 'dist'),
     filename: '[name].[chunkhash].js'
@@ -45,7 +45,8 @@ module.exports = {
       template: path.resolve(path.join(__dirname, 'static'), 'template.html')
     }),
     new WasmPackPlugin({
-      crateDirectory: path.resolve(__dirname, 'frontend')
+      crateDirectory: path.resolve(__dirname, 'src/wasm'),
+      outDir: path.resolve(__dirname, 'src/wasm/pkg')
     }),
     new MiniCssExtractPlugin({
       filename: 'style.css',

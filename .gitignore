@@ -1,10 +1,10 @@
-.vs
-.vscode
-.idea
+/**/.vs
+/**/.vscode
+/**/.idea
 
-/target
-**/*.rs.bk
+/**/dist
+/**/node_modules
+
+/**/target
+/**/*.rs.bk
 /**/pkg/
-
-/dist
-/node_modules
