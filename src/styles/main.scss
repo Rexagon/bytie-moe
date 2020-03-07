@@ -2,14 +2,14 @@
 
 @font-face {
   font-family: "JetBrains Mono";
-  src: url("/static/fonts/woff2/JetBrainsMono-Regular.woff2") format("woff2"),
-  url("/static/fonts/woff/JetBrainsMono-Regular.woff") format("woff");
+  src: url("../fonts/woff2/JetBrainsMono-Regular.woff2") format("woff2"),
+  url("../fonts/woff/JetBrainsMono-Regular.woff") format("woff");
 }
 
 @font-face {
   font-family: "JetBrains Mono Bold";
-  src: url("/static/fonts/woff2/JetBrainsMono-Bold.woff2") format("woff2"),
-  url("/static/fonts/woff/JetBrainsMono-Bold.woff") format("woff");
+  src: url("../fonts/woff2/JetBrainsMono-Bold.woff2") format("woff2"),
+  url("../fonts/woff/JetBrainsMono-Bold.woff") format("woff");
 }
 
 * {

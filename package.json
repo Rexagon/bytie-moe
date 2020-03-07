@@ -2,7 +2,7 @@
   "name": "bytie-moe",
   "version": "1.0.0",
   "scripts": {
-    "build": "webpack",
+    "build": "rm -rf dist && webpack",
     "serve": "webpack-dev-server"
   },
   "dependencies": {
