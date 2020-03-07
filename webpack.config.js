@@ -42,7 +42,8 @@ module.exports = {
   },
   plugins: [
     new HtmlWebpackPlugin({
-      template: path.resolve(path.join(__dirname, 'static'), 'template.html')
+      template: path.resolve(path.join(__dirname, 'static'), 'template.html'),
+      favicon: path.resolve(path.join(__dirname, 'static'), 'favicon.ico'),
     }),
     new WasmPackPlugin({
       crateDirectory: path.resolve(__dirname, 'src/wasm'),
