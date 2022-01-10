@@ -1,7 +1,7 @@
 const path = require('path');
 
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const WasmPackPlugin = require('@wasm-tool/wasm-pack-plugin');
+const WasmPackPlugin = require('@broxus/wasm-pack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 module.exports = {
@@ -25,20 +25,15 @@ module.exports = {
           'css-loader',
           'sass-loader'
         ]
-      },
-      {
-        test: /\.(woff(2)?|ttf|eot|svg)(\?v=\d+\.\d+\.\d+)?$/,
-        use: [
-          {
-            loader: 'file-loader',
-            options: {
-              name: '[name].[ext]',
-              outputPath: 'fonts/'
-            }
-          }
-        ]
       }
     ]
+  },
+  resolve: {
+    extensions: ['.js', '.scss', '.css', '.wasm'],
+    modules: [
+      path.resolve(__dirname, 'src'),
+      'node_modules',
+    ],
   },
   plugins: [
     new HtmlWebpackPlugin({
@@ -46,13 +41,17 @@ module.exports = {
       favicon: path.resolve(path.join(__dirname, 'static'), 'favicon.ico'),
     }),
     new WasmPackPlugin({
+      outDir: path.resolve(__dirname, 'src/wasm/pkg'),
       crateDirectory: path.resolve(__dirname, 'src/wasm'),
-      outDir: path.resolve(__dirname, 'src/wasm/pkg')
+      extraArgs: '--target web'
     }),
     new MiniCssExtractPlugin({
       filename: 'style.css',
       chunkFilename: '[name].[contenthash].css',
       ignoreOrder: false
     })
-  ]
+  ],
+  experiments: {
+    syncWebAssembly: true,
+  }
 };

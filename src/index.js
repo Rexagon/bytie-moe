@@ -1,3 +1,5 @@
 import './styles/main.scss';
 
-import('./wasm/pkg').catch(console.error);
+import init from './wasm/pkg'
+
+init().catch(console.error);
